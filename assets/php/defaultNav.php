@@ -20,7 +20,7 @@
         <div class="container-fluid"><a class="navbar-brand" href="index.php" style="font-size: 21px;font-weight: bold;"><i class="fa fa-ambulance"></i>&nbsp;MDRRMO</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1" style="font-family: 'Alfa Slab One', serif;"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1" style="font-family: 'Alfa Slab One', serif;">
                 <ul class="navbar-nav" style="font-family: Alatsi, sans-serif;">
-                    <li class="nav-item" style="font-family: 'Alfa Slab One', serif;"><a class="nav-link" href="Trainyourself.html" style="font-family: Alatsi, sans-serif;">Trainyour Self</a></li>
+                    <li class="nav-item" style="font-family: 'Alfa Slab One', serif;"><a class="nav-link" href="Trainyourself.php" style="font-family: Alatsi, sans-serif;">Trainyour Self</a></li>
                     <li class="nav-item" style="font-family: 'Alfa Slab One', serif;"><a class="nav-link" href="Login.php" style="font-family: Alatsi, sans-serif;">Log In</a></li>
                 </ul>
             </div>
