@@ -1,4 +1,28 @@
-<?php include_once 'assets/php/defaultNav.php'; ?>
+<?php 
+
+session_start();
+if(isset($_SESSION['userID']))
+{
+    if($_SESSION['userID'] ==8)
+{
+    include_once 'assets/php/adminNav.php';
+}
+else{
+    include_once 'assets/php/userNav.php';
+}
+}
+else{
+    include_once 'assets/php/defaultNav.php';
+}
+
+if(isset($_GET['error']))
+{
+    if($_GET['error'] = 'Something Went')
+    {
+        $alert = "Invalid Account";
+    }
+}
+ ?>
 
 
     <div style="padding: 49px;">

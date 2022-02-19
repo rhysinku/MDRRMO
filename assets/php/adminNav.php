@@ -1,6 +1,7 @@
-
-<?php include 'connectdb.php';
+<?php 
+include 'connectdb.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,14 +20,14 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand-md sticky-top" style="background: linear-gradient(97deg, rgb(244,110,34), rgb(225,85,25));font-size: 20px;">
+    <nav class="navbar navbar-light navbar-expand-md sticky-top" style="background: linear-gradient(97deg, rgb(244,47,34), rgb(232,107,54));font-size: 20px;">
         <div class="container-fluid"><a class="navbar-brand" href="index.php" style="font-size: 21px;font-weight: bold;"><i class="fa fa-ambulance"></i>&nbsp;MDRRMO</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1" style="font-family: 'Alfa Slab One', serif;"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1" style="font-family: 'Alfa Slab One', serif;">
                 <ul class="navbar-nav" style="font-family: Alatsi, sans-serif;">
-                    <li class="nav-item" style="font-family: 'Alfa Slab One', serif;"><a class="nav-link" href="Profile.php" style="font-family: Alatsi, sans-serif;"><?php echo $_SESSION['user']  ?></a></li>
+                    <li class="nav-item" style="font-family: 'Alfa Slab One', serif;"><a class="nav-link" href="#" style="font-family: Alatsi, sans-serif;">Admin</a></li>
                     <li class="nav-item" style="font-family: 'Alfa Slab One', serif;"><a class="nav-link" href="Trainyourself.php" style="font-family: Alatsi, sans-serif;">Train yourself</a></li>
-                    <li class="nav-item" style="font-family: 'Alfa Slab One', serif;"><a class="nav-link" href="Training.php" style="font-family: Alatsi, sans-serif;">Training</a></li>
-                    <li class="nav-item" style="font-family: 'Alfa Slab One', serif;"><a class="nav-link" href="Feedback.php" style="font-family: Alatsi, sans-serif;">Feedback</a></li>
+                    <li class="nav-item" style="font-family: 'Alfa Slab One', serif;"><a class="nav-link" href="adminTraining.php" style="font-family: Alatsi, sans-serif;">Training List</a></li>
+                    <li class="nav-item" style="font-family: 'Alfa Slab One', serif;"><a class="nav-link" href="adminFeedback.php" style="font-family: Alatsi, sans-serif;">Feedbacks</a></li>
                     <li class="nav-item" style="font-family: 'Alfa Slab One', serif;"><a class="nav-link" href="assets/php/userLogout.php" style="font-family: Alatsi, sans-serif;">Logout</a></li>
                 </ul>
             </div>

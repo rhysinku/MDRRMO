@@ -1,138 +1,158 @@
 <?php 
 
+
+
 session_start();
 if(isset($_SESSION['userID']))
 {
- include_once 'assets/php/userNav.php';
+    if($_SESSION['userID'] ==8)
+{
+    include_once 'assets/php/adminNav.php';
+}
+else{
+    include_once 'assets/php/userNav.php';
+}
 }
 else{
     include_once 'assets/php/defaultNav.php';
 }
  ?>
-    <div style="margin: 20px;">
-        <div class="carousel slide" data-bs-ride="carousel" id="carousel-1">
-            <div class="carousel-inner" style="height: 715.578px;">
-                <div class="carousel-item active"><img class="w-100 d-block" src="assets/img/train2.jpg" alt="Slide Image"></div>
-                <div class="carousel-item"><img class="w-100 d-block" src="assets/img/banner.jpg" alt="Slide Image"></div>
-                <div class="carousel-item"><img class="w-100 d-block" src="assets/img/10.jpg" alt="Slide Image"></div>
-            </div>
-            <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></a></div>
-            <ol class="carousel-indicators">
-                <li data-bs-target="#carousel-1" data-bs-slide-to="0" class="active"></li>
-                <li data-bs-target="#carousel-1" data-bs-slide-to="1"></li>
-                <li data-bs-target="#carousel-1" data-bs-slide-to="2"></li>
-            </ol>
+    <div class="d-flex" style="margin: 30px;">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="border-style: none;">
+                            <h1><?php echo $_SESSION['user']?></h1>
+                            <p>Account ID:&nbsp;<span><?php echo $_SESSION['userID'] ?></span></p>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody style="border-style: none;">
+                <?php 
+                $id = $_SESSION['userID'];
+                $profile = $conn->query("SELECT * FROM user WHERE userID = '$id'"); 
+                while($row = $profile->fetch_assoc()):
+               
+                ?>
+
+                    <tr style="border-style: none;">
+                        <td>
+                            <p>Name:&nbsp;<span style="font-weight: bold;color: rgb(241,106,32);"><?php echo $row['fname'] ?></span><span>&nbsp;</span><span style="font-weight: bold;color: rgb(241,106,32);"><?php echo $row['lname']?></span></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Email:&nbsp;<span style="font-weight: bold;color: rgb(241,106,32);"><?php echo $row['email'] ?></span></p>
+                        </td>
+                    </tr>
+                    <?php endwhile ?>
+                </tbody>
+            </table>
         </div>
     </div>
-    <div style="text-align: center;margin: 13px;">
-        <h1 style="color: #f75928;">About us</h1>
-        <p style="margin: 35px;font-family: Alatsi, sans-serif;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.<br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.</p>
+    <div class="d-flex flex-column justify-content-center" style="margin: 33px;padding: -1px;">
+        <h1>Schedule Training History</h1>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr style="font-size: 12px;text-align: center;">
+                        <th>Leader</th>
+                        <th>Participant</th>
+                        <th>Type of Training</th>
+                        <th>Email</th>
+                        <th>Contact Number</th>
+                        <th>Reason</th>
+                        <th>Location</th>
+                        <th>Schedule Date</th>
+                        <th>Date Modified</th>
+                        <th>Admin Permission</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php  
+                    
+                    $train = $conn->query("SELECT * FROM training INNER JOIN user ON training.userID = user.userID WHERE user.userID IN ('$id') ORDER BY training.trainingTimestamp DESC ");
+                    
+                    while ($trainData = $train->fetch_assoc()):
+                        $scheduleDate = date(" F, d, Y",strtotime($trainData['trainingDate']));
+                        $traingTimestamp = date ("F, d, Y", strtotime($trainData['trainingTimestamp']));
+
+                    ?>
+                    <tr>
+                        <td><?php echo $trainData['Leader']?></td>
+                        <td><?php echo $trainData['Participant']?></td>
+                        <td><?php echo $trainData['TypeTraining']?></td>
+                        <td><?php echo $trainData['email']?></td>
+                        <td><?php echo $trainData['Contactnum']?></td>
+                        <td><?php echo $trainData['trainingReason']?></td>
+                        <td><?php echo $trainData['trainingLocation']?></td>
+                        <td><?php echo $scheduleDate?></td>
+                        <td><?php echo $traingTimestamp?></td>
+                        
+                        <td>
+                            <?php 
+                            if($trainData['trainingAdminPermision'] == 'Approve')
+                            {
+                                $traintext = 'text-success';
+                            }
+                            elseif ($trainData['trainingAdminPermision'] == 'Pending' )
+                            {
+                                $traintext = 'text-muted';
+                            }
+                            else
+                            {
+                                $traintext = 'text-danger';
+                            }
+                            ?>
+                            <p class="<?php echo $traintext ?>" style="font-weight: bold;"><?php echo $trainData['trainingAdminPermision']?></p>
+                        </td>
+                    </tr>
+                    <?php endwhile ?>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div>
-        <section class="card-section-imagia">
-            <h1 style="color: #f75928;">Our team</h1>
-            <h2>Argao MDRRMO MEMBERS</h2>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-6 col-md-4">
-                        <div class="card-container-imagia">
-                            <div class="card-imagia">
-                                <div class="front-imagia">
-                                    <div class="cover-imagia"><img alt="" src="https://unsplash.it/720/500?image=1067"></div>
-                                    <div class="user-imagia"><img class="img-circle" alt="" src="assets/img/a1.jpg"></div>
-                                    <div class="content-imagia">
-                                        <h3 class="name-imagia">John Doe</h3>
-                                        <p class="subtitle-imagia">Subtitle </p>
-                                        <p class="text-center"><em>Tantum autem cuique tribuendum, primum quantum ipse efficere possis, deinde etiam quantum ille quem diligas atque adiuves.</em></p>
-                                    </div>
-                                    <div class="footer-imagia"><span><i class="fa fa-plus"></i> More info</span></div>
-                                </div>
-                                <div class="back-imagia">
-                                    <div class="content-imagia content-back-imagia">
-                                        <div>
-                                            <h3 class="text-center">Lorem Ipsum</h3>
-                                            <p class="text-center">Et hanc quidem praeter oppida multa duae civitates exornant Seleucia opus Seleuci regis, et Claudiopolis quam deduxit coloniam Claudius Caesar. Isaura enim antehac nimium potens, olim subversa ut rebellatrix interneciva aegre vestigia claritudinis pristinae monstrat admodum pauca. </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4">
-                        <div class="card-container-imagia">
-                            <div class="card-imagia">
-                                <div class="front-imagia">
-                                    <div class="cover-imagia"><img alt="" src="https://unsplash.it/720/500?image=1067"></div>
-                                    <div class="user-imagia"><img class="img-circle" alt="" src="assets/img/a1.jpg"></div>
-                                    <div class="content-imagia">
-                                        <h3 class="name-imagia">John Doe</h3>
-                                        <p class="subtitle-imagia">Subtitle </p>
-                                        <p class="text-center"><em>Tantum autem cuique tribuendum, primum quantum ipse efficere possis, deinde etiam quantum ille quem diligas atque adiuves.</em></p>
-                                    </div>
-                                    <div class="footer-imagia"><span><i class="fa fa-plus"></i> More info</span></div>
-                                </div>
-                                <div class="back-imagia">
-                                    <div class="content-imagia content-back-imagia">
-                                        <div>
-                                            <h3 class="text-center">Lorem Ipsum</h3>
-                                            <p class="text-center">Et hanc quidem praeter oppida multa duae civitates exornant Seleucia opus Seleuci regis, et Claudiopolis quam deduxit coloniam Claudius Caesar. Isaura enim antehac nimium potens, olim subversa ut rebellatrix interneciva aegre vestigia claritudinis pristinae monstrat admodum pauca. </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4">
-                        <div class="card-container-imagia">
-                            <div class="card-imagia">
-                                <div class="front-imagia">
-                                    <div class="cover-imagia"><img alt="" src="https://unsplash.it/720/500?image=1067"></div>
-                                    <div class="user-imagia"><img class="img-circle" alt="" src="assets/img/a1.jpg"></div>
-                                    <div class="content-imagia">
-                                        <h3 class="name-imagia">John Doe</h3>
-                                        <p class="subtitle-imagia">Subtitle </p>
-                                        <p class="text-center"><em>Tantum autem cuique tribuendum, primum quantum ipse efficere possis, deinde etiam quantum ille quem diligas atque adiuves.</em></p>
-                                    </div>
-                                    <div class="footer-imagia"><span><i class="fa fa-plus"></i> More info</span></div>
-                                </div>
-                                <div class="back-imagia">
-                                    <div class="content-imagia content-back-imagia">
-                                        <div>
-                                            <h3 class="text-center">Lorem Ipsum</h3>
-                                            <p class="text-center">Et hanc quidem praeter oppida multa duae civitates exornant Seleucia opus Seleuci regis, et Claudiopolis quam deduxit coloniam Claudius Caesar. Isaura enim antehac nimium potens, olim subversa ut rebellatrix interneciva aegre vestigia claritudinis pristinae monstrat admodum pauca. </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4">
-                        <div class="card-container-imagia">
-                            <div class="card-imagia">
-                                <div class="front-imagia">
-                                    <div class="cover-imagia"><img alt="" src="https://unsplash.it/720/500?image=1067"></div>
-                                    <div class="user-imagia"><img class="img-circle" alt="" src="assets/img/a1.jpg"></div>
-                                    <div class="content-imagia">
-                                        <h3 class="name-imagia">John Doe</h3>
-                                        <p class="subtitle-imagia">Subtitle </p>
-                                        <p class="text-center"><em>Tantum autem cuique tribuendum, primum quantum ipse efficere possis, deinde etiam quantum ille quem diligas atque adiuves.</em></p>
-                                    </div>
-                                    <div class="footer-imagia"><span><i class="fa fa-plus"></i> More info</span></div>
-                                </div>
-                                <div class="back-imagia">
-                                    <div class="content-imagia content-back-imagia">
-                                        <div>
-                                            <h3 class="text-center">Lorem Ipsum</h3>
-                                            <p class="text-center">Et hanc quidem praeter oppida multa duae civitates exornant Seleucia opus Seleuci regis, et Claudiopolis quam deduxit coloniam Claudius Caesar. Isaura enim antehac nimium potens, olim subversa ut rebellatrix interneciva aegre vestigia claritudinis pristinae monstrat admodum pauca. </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div class="d-flex flex-column justify-content-center" style="margin: 33px;padding: -1px;">
+        <h1>Feedback History</h1>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Comment</th>
+                        <th>Rating</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                    $feedback = $conn->query("SELECT * FROM feedback INNER JOIN user on feedback.userid = user.userID WHERE user.userID IN ('$id') ORDER BY feedback.feedbackTimestamp DESC ");
+                     
+                    while ($feedbackData = $feedback->fetch_assoc()):
+                        $feedTimestamp = date("F, d, Y", strtotime($feedbackData['feedbackTimestamp']));
+                     ?>
+                    <tr>
+                        <td><?php echo $feedbackData['feedbackComment']?></td>
+                        <td><?php echo $feedbackData['feedbackRating']?> Points</td>
+                        <td><?php echo $feedTimestamp ?></td>
+                        <td>
+                            <?php
+                            if($feedbackData['feedbackStatus'] == 'Looking Up')
+                            {
+                                $feedtext ='text-muted';
+                            }
+                            else
+                            {
+                                $feedtext ='text-success';
+                            } ?>
+                            <p class="<?php echo $feedtext ?>" style="font-weight: bold;"><?php echo $feedbackData['feedbackStatus']?></p>
+                        </td>
+                    </tr>
+                    <?php endwhile ?>
+                </tbody>
+            </table>
+        </div>
     </div>
-     
-<?php include_once 'assets/php/defaultFoot.php'; ?> 
+    
+    <?php include_once 'assets/php/defaultFoot.php'; ?> 

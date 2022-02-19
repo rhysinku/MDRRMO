@@ -11,10 +11,11 @@ $email = $_POST['email'];
 $num = $_POST['num'];
 $reason = $_POST['reason'];
 $location = $_POST['location'];
+$permision = 'Pending';
 
 
-$sql = "INSERT INTO training (userID, Leader, Participant, trainingDate, TypeTraining, trainingEmail, Contactnum, trainingReason, trainingLocation ) 
-        VALUES('$userID', '$leader' , '$participant', '$date', '$typeTraining', '$email', '$num' , '$reason' , '$location')";
+$sql = "INSERT INTO training (userID, Leader, Participant, trainingDate, TypeTraining, trainingEmail, Contactnum, trainingReason, trainingLocation, trainingAdminPermision ) 
+        VALUES('$userID', '$leader' , '$participant', '$date', '$typeTraining', '$email', '$num' , '$reason' , '$location', '$permision')";
     
    if( mysqli_query($conn, $sql))
    {

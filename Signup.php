@@ -1,4 +1,22 @@
-<?php include_once'assets/php/defaultNav.php'; ?>
+<?php 
+
+session_start();
+if(isset($_SESSION['userID']))
+{
+    if($_SESSION['userID'] ==8)
+{
+    include_once 'assets/php/adminNav.php';
+}
+else{
+    include_once 'assets/php/userNav.php';
+}
+}
+else{
+    include_once 'assets/php/defaultNav.php';
+}
+ ?>
+
+ 
     <div style="padding: 118px;">
         <div class="table-responsive">
             <table class="table">

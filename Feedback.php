@@ -3,7 +3,13 @@
 session_start();
 if(isset($_SESSION['userID']))
 {
- include_once 'assets/php/userNav.php';
+    if($_SESSION['userID'] ==8)
+{
+    include_once 'assets/php/adminNav.php';
+}
+else{
+    include_once 'assets/php/userNav.php';
+}
 }
 else{
     include_once 'assets/php/defaultNav.php';
