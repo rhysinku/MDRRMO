@@ -12,23 +12,24 @@ else{
 
     <div style="padding: 52px;">
         <h1>Schedule Training</h1>
-        <form method="post" style="padding: 18px;">
+        <form method="post" action="assets/php/Trainingdb.php" style="padding: 18px;">
             <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr style="border-style: none;">
                             <th>
-                                <p>Leader Name</p><input class="form-control" type="text" required="">
+                                <p>Leader Name</p><input class="form-control" name="leader" type="text" required="">
+                            <input type="hidden" name="userid" value="<?php echo $_SESSION['userID']?>">
                             </th>
                             <th>
-                                <p>No. of Participant</p><input class="form-control" type="text" required="">
+                                <p>No. of Participant</p><input class="form-control" name="participant" type="text" required="">
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>
-                                <p>Schedule Date</p><input class="form-control" type="date">
+                                <p>Schedule Date</p><input class="form-control" name="date" type="date">
                             </td>
                             <td>
                                 <p>Type of Training</p>
@@ -39,20 +40,20 @@ else{
                         </tr>
                         <tr>
                             <td>
-                                <p>Email</p><input class="form-control" type="text" required="" >
+                                <p>Email</p><input class="form-control" name="email" type="text" required="" >
                             </td>
                             <td>
-                                <p>Contact Number</p><input class="form-control" type="text"  required="">
+                                <p>Contact Number</p><input class="form-control" name="num" type="number"  required="">
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div>
-                <p>Reason:</p><textarea class="form-control"></textarea>
+                <p>Reason:</p><textarea  name="reason" class="form-control"></textarea>
             </div>
             <div>
-                <p>Location:</p><textarea class="form-control"></textarea>
+                <p>Location:</p><textarea name= "location" class="form-control"></textarea>
             </div>
             <div class="d-flex justify-content-center" style="margin: 11px;"><button class="btn btn-primary" type="submit" style="width: 89.5px;height: 51px;">Submit</button></div>
         </form>
